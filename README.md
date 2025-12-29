@@ -6,3 +6,4 @@ https://github.com/user-attachments/assets/7744adde-619a-47c3-b97a-728d785cfbab
 
 ![esp](https://github.com/user-attachments/assets/710b096a-e859-4ce3-a5ec-eabd9a849797)
 ![rap](https://github.com/user-attachments/assets/6954c5eb-748d-4b7d-b286-984fcc798b0f)
+[PBL5_NCKH.pdf](https://github.com/user-attachments/files/24364395/PBL5_NCKH.pdf)

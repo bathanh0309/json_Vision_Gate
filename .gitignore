@@ -1,0 +1,6 @@
+.venv/
+.vscode/
+node_modules/
+*.pyc
+__pycache__/
+*.db

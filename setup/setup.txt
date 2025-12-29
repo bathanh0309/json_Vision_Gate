@@ -1,0 +1,32 @@
+B1: tải arduino cli về laptop, lấy đường dẫn
+B2: trong terminal, chạy 
+arduino-cli config add board_manager.additional_urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+B3: arduino-cli core update-index
+B4: arduino-cli core install esp32:esp32
+B5: arduino-cli core list (kiểm tra)
+B6: arduino-cli compile --fqbn esp32:esp32:esp32cam
+Nạp
+B7: arduino-cli upload -p COM7 --fqbn esp32:esp32:esp32cam
+B8: Vào data
+npm init -y
+npm install express mqtt cors
+node server.js
+
+B9: Cài PubSubClient cho Arduino cli
+arduino-cli lib install "PubSubClient"
+
+const char* ssid = "WIFI_ESP_CAM";
+const char* password = "12345678@";
+
+Cài socket.io trong cd data
+npm install express mqtt cors socket.io
+
+Cài MQTT.js
+npm install mqtt --save
+npm fund
+
+
+Cài Node-red để giao tiếp MQTT với PostgreSQL
+npm install -g --unsafe-perm node-red
+
+npm install express

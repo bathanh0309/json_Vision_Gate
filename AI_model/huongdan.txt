@@ -1,0 +1,30 @@
+cài môi trường ảo
+vào thư mục dự án, mở Git bash gõ: python -m venv .venv
+kích hoạt môi trường ảo: source .venv/Scripts/activate
+
+2. cài pytorch 
+pip uninstall torch torchvision torchaudio -y
+pip install torch==2.3.1 torchvision==0.18.1 torchaudio==2.3.1
+
+cài numpy:
+pip uninstall numpy -y
+pip install numpy==1.26.4
+
+Cài PyTorch có hỗ trợ GPU
+Trong môi trường .venv, gỡ bản CPU trước:pip uninstall torch torchvision torchaudio -y
+Rồi cài bản GPU (ví dụ CUDA 11.8):pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+python -c "import torch; print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0))" (lệnh kt gpu trong pytorch)
+
+# Ép chạy trên GPU
+coco_model.to("cuda" if torch.cuda.is_available() else "cpu")
+license_plate_detector = YOLO('license_plate_detector.pt')
+print("Thiết bị đang dùng:", next(coco_model.model.parameters()).device)
+nếu ra "Thiết bị đang dùng: cuda:0" >> okk
+
+
+3. chạy chương trình:
+python main.py
+python add_missing_data.py
+python visualize.py
+
+>> file out.mp4 là đầu ra

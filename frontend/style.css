@@ -1,0 +1,887 @@
+/* ==========================================
+   CÀI ĐẶT TOÀN CỤC (GLOBAL SETTINGS)
+   ========================================== */
+
+/* Áp dụng box-sizing cho tất cả phần tử */
+* {
+    box-sizing: border-box;
+    /* Tính cả padding và border vào kích thước tổng của phần tử */
+}
+
+/* Cài đặt cho thẻ body (toàn bộ trang) */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Phông chữ hiện đại */
+    background: linear-gradient(135deg, #fff9e6 0%, #ffeaa7 100%);
+    /* Nền gradient vàng nhạt */
+    margin: 0;
+    /* Không có lề ngoài */
+    padding: 20px;
+    /* Khoảng đệm bên trong 20px */
+    color: #333;
+    /* Màu chữ xám đậm */
+}
+
+/* Tiêu đề chính H1 */
+h1 {
+    color: #555;
+    /* Màu xám vừa */
+    text-align: center;
+    /* Căn giữa */
+    margin-bottom: 20px;
+    /* Khoảng cách dưới 20px */
+    font-weight: 600;
+    /* Độ đậm chữ vừa */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    /* Đổ bóng chữ nhẹ */
+}
+
+/* ==========================================
+   CONTAINER CHÍNH (MAIN LAYOUT)
+   ========================================== */
+
+/* Container chứa toàn bộ nội dung */
+.container {
+    display: grid;
+    /* Sử dụng CSS Grid Layout */
+    grid-template-columns: 1fr 1fr;
+    /* 2 cột bằng nhau */
+    grid-template-rows: 1fr 1fr;
+    /* 2 hàng bằng nhau */
+    gap: 15px;
+    /* Khoảng cách giữa các ô 15px */
+    height: calc(100vh - 100px);
+    /* Chiều cao = chiều cao màn hình - 100px */
+    max-width: 1920px;
+    /* Chiều rộng tối đa 1920px */
+    margin: 0 auto;
+    /* Căn giữa container */
+}
+
+/* ==========================================
+   CÁC PHẦN CHÍNH (SECTIONS)
+   ========================================== */
+
+/* Style chung cho camera, CSV và gate control sections */
+.camera-section,
+.csv-section,
+.reserved-top {
+    background: #fffdf5;
+    /* Nền vàng nhạt */
+    padding: 20px;
+    /* Khoảng đệm trong 20px */
+    border-radius: 12px;
+    /* Bo góc 12px */
+    border: 1px solid #e8e0c8;
+    /* Viền màu nâu nhạt */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    /* Đổ bóng nhẹ */
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+    min-height: 0;
+    /* Chiều cao tối thiểu = 0 để tránh overflow */
+}
+
+/* Phần camera - chiếm cột 1, cả 2 hàng */
+.camera-section {
+    grid-column: 1;
+    /* Cột 1 */
+    grid-row: 1 / 3;
+    /* Từ hàng 1 đến hàng 3 (chiếm 2 hàng) */
+}
+
+/* Phần CSV logs - chiếm cột 2, hàng 2 */
+.csv-section {
+    grid-column: 2;
+    /* Cột 2 */
+    grid-row: 2;
+    /* Hàng 2 */
+}
+
+/* Phần gate control - chiếm cột 2, hàng 1 */
+.reserved-top {
+    grid-column: 2;
+    /* Cột 2 */
+    grid-row: 1;
+    /* Hàng 1 */
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+    justify-content: center;
+    /* Căn giữa theo chiều dọc */
+    align-items: center;
+    /* Căn giữa theo chiều ngang */
+}
+
+/* ==========================================
+   TIÊU ĐỀ H2
+   ========================================== */
+
+h2 {
+    margin: 0 0 20px 0;
+    /* Lề trên=0, phải=0, dưới=20px, trái=0 */
+    font-size: 22px;
+    /* Cỡ chữ 22px */
+    color: #555;
+    /* Màu xám vừa */
+    font-weight: 600;
+    /* Độ đậm chữ vừa */
+    text-align: center;
+    /* Căn giữa */
+}
+
+/* ==========================================
+   CAMERA STREAM
+   ========================================== */
+
+/* Hình ảnh camera stream */
+#stream {
+    width: 100%;
+    /* Chiều rộng 100% */
+    flex: 1;
+    /* Chiếm toàn bộ không gian còn lại */
+    border-radius: 8px;
+    /* Bo góc 8px */
+    border: 2px solid #e8e0c8;
+    /* Viền 2px màu nâu nhạt */
+    object-fit: contain;
+    /* Giữ tỷ lệ ảnh, không bị méo */
+    background: #000;
+    /* Nền đen */
+    min-height: 300px;
+    /* Chiều cao tối thiểu 300px */
+}
+
+/* Khu vực điều khiển camera (input + button) */
+.camera-controls {
+    display: flex;
+    /* Sử dụng Flexbox */
+    gap: 10px;
+    /* Khoảng cách giữa các phần tử 10px */
+    margin-top: 15px;
+    /* Khoảng cách trên 15px */
+}
+
+/* Trạng thái Camera và MQTT */
+.camera-status {
+    margin-top: 15px;
+    /* Khoảng cách trên 15px */
+    display: flex;
+    /* Sử dụng Flexbox */
+    justify-content: space-around;
+    /* Căn đều 2 status */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    background: rgba(255, 255, 255, 0.8);
+    /* Nền trắng mờ */
+    padding: 10px;
+    /* Padding 10px */
+    border-radius: 8px;
+    /* Bo góc 8px */
+    border: 1px solid #e8e0c8;
+    /* Viền nâu nhạt */
+}
+
+.camera-status span {
+    font-weight: bold;
+    /* Chữ đậm */
+    font-size: 14px;
+    /* Cỡ chữ 14px */
+}
+
+/* ==========================================
+   INPUT VÀ BUTTON
+   ========================================== */
+
+/* Ô input text */
+input[type="text"] {
+    flex: 1;
+    /* Chiếm phần còn lại của container */
+    padding: 12px;
+    /* Khoảng đệm trong 12px */
+    border: 2px solid #d4c9a8;
+    /* Viền 2px màu nâu nhạt */
+    border-radius: 6px;
+    /* Bo góc 6px */
+    background: white;
+    /* Nền trắng */
+    font-size: 14px;
+    /* Cỡ chữ 14px */
+}
+
+/* Input text khi được focus (click vào) */
+input[type="text"]:focus {
+    outline: none;
+    /* Bỏ viền mặc định khi focus */
+    border-color: #f5e6b3;
+    /* Đổi màu viền thành vàng nhạt */
+}
+
+/* Nút button chung */
+button {
+    padding: 12px 24px;
+    /* Padding trên-dưới=12px, trái-phải=24px */
+    background: #f5e6b3;
+    /* Nền vàng nhạt */
+    color: #555;
+    /* Chữ màu xám */
+    border: 2px solid #d4c9a8;
+    /* Viền 2px màu nâu nhạt */
+    border-radius: 8px;
+    /* Bo góc 6px */
+    cursor: pointer;
+    /* Con trỏ chuột dạng tay khi hover */
+    font-weight: 600;
+    /* Chữ đậm */
+    transition: all 0.3s ease;
+    /* Hiệu ứng chuyển động mượt 0.3 giây */
+    font-size: 14px;
+    /* Cỡ chữ 14px */
+}
+
+/* Button khi hover (di chuột qua) */
+button:hover {
+    background: #f0dd9a;
+    /* Nền vàng đậm hơn */
+    transform: translateY(-2px);
+    /* Nâng lên 2px */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    /* Đổ bóng mạnh hơn */
+}
+
+/* Button khi active (click giữ) */
+button:active {
+    transform: translateY(0);
+    /* Trở về vị trí ban đầu */
+}
+
+/* ==========================================
+   BẢNG (TABLE)
+   ========================================== */
+
+/* Nút load CSV */
+.load-csv-btn {
+    align-self: center;
+    /* Căn giữa theo chiều ngang */
+    margin-bottom: 15px;
+    /* Khoảng cách dưới 15px */
+}
+
+/* Container chứa bảng */
+.table-container {
+    flex: 1;
+    /* Chiếm không gian còn lại */
+    overflow-y: auto;
+    /* Cho phép cuộn dọc */
+    border: 2px solid #e8e0c8;
+    /* Viền 2px màu nâu nhạt */
+    border-radius: 8px;
+    /* Bo góc 8px */
+    background: white;
+    /* Nền trắng */
+}
+
+/* Thẻ table */
+table {
+    width: 100%;
+    /* Chiều rộng 100% */
+    border-collapse: collapse;
+    /* Gộp viền các ô lại với nhau */
+}
+
+/* Các ô th (header) và td (dữ liệu) */
+th,
+td {
+    border: 1px solid #e8e0c8;
+    /* Viền 1px màu nâu nhạt */
+    padding: 12px;
+    /* Khoảng đệm trong 12px */
+    text-align: left;
+    /* Căn trái */
+    font-size: 14px;
+    /* Cỡ chữ 14px */
+}
+
+/* Ô header (th) */
+th {
+    background: #faf6e8;
+    /* Nền vàng rất nhạt */
+    position: sticky;
+    /* Giữ cố định khi cuộn */
+    top: 0;
+    /* Dính ở đầu */
+    z-index: 10;
+    /* Lớp hiển thị cao để luôn nằm trên */
+    font-weight: 600;
+    /* Chữ đậm */
+    color: #555;
+    /* Màu xám */
+}
+
+/* Dòng tr khi hover */
+tr:hover {
+    background: #fdfcf5;
+    /* Nền vàng rất nhạt khi di chuột qua */
+}
+
+/* ==========================================
+   ĐIỀU KHIỂN CỔNG (GATE CONTROL)
+   ========================================== */
+
+/* Section gate control */
+.reserved-top {
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+    padding-top: 5px;
+    /* Khoảng đệm trên 5px */
+}
+
+/* Tiêu đề h2 trong gate control */
+.reserved-top h2 {
+    margin-top: 0;
+    /* Không có lề trên */
+    margin-bottom: 8px;
+    /* Lề dưới 8px */
+    font-size: 18px;
+    /* Cỡ chữ 18px */
+}
+
+/* Bố cục 2 cột: 40% Gate + 60% Realtime */
+.gate-control-grid {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    /* Sử dụng CSS Grid */
+    grid-template-columns: 40% 60%;
+    /* Cột 1: 40%, Cột 2: 60% */
+    gap: 10px;
+    /* Khoảng cách giữa các cột 10px */
+    flex: 1;
+    /* Chiếm không gian còn lại */
+    overflow: hidden;
+    /* Ẩn phần tràn ra ngoài để giữ trong giới hạn */
+}
+
+/* Cột chứa hình ảnh cổng */
+.gate-visual-column {
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+}
+
+/* Cột chứa bảng xe */
+.vehicles-column {
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+}
+
+/* Container bao bọc cổng và nút */
+.gate-wrapper-new {
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+    width: 100%;
+    /* Chiều rộng 100% */
+    height: 100%;
+    /* Chiều cao 100% */
+    align-items: center;
+    /* Căn giữa theo chiều ngang */
+    justify-content: center;
+    /* Căn giữa theo chiều dọc */
+    gap: 5px;
+    /* Khoảng cách giữa các phần tử 5px */
+    margin-left: -10px;
+    /* Dời sang trái 10px để căn chỉnh */
+}
+
+/* Khu vực hiển thị hình ảnh cổng */
+.gate-visual-area {
+    display: flex;
+    /* Sử dụng Flexbox */
+    justify-content: center;
+    /* Căn giữa theo chiều ngang */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+    position: relative;
+    /* Định vị tương đối để các phần tử con có thể absolute */
+}
+
+/* Khu vực chứa các nút bấm (nằm dưới cổng) */
+.gate-buttons-area {
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: row;
+    /* Xếp ngang (hàng) */
+    justify-content: center;
+    /* Căn giữa */
+    gap: 15px;
+    /* Khoảng cách giữa các nút 15px */
+}
+
+/* Nút điều khiển cổng */
+.gate-btn-vertical {
+    padding: 12px 35px;
+    /* Padding trên-dưới=12px, trái-phải=35px để nút rộng hơn */
+    font-size: 14px;
+    /* Cỡ chữ 14px */
+    font-weight: bold;
+    /* Chữ đậm */
+    border: 2px solid #d4c9a8;
+    /* Viền 2px màu nâu nhạt */
+    border-radius: 8px;
+    /* Bo góc 8px */
+    background: #f5e6b3;
+    /* Nền vàng nhạt */
+    color: #555;
+    /* Chữ màu xám */
+    cursor: pointer;
+    /* Con trỏ dạng tay */
+    transition: all 0.3s ease;
+    /* Hiệu ứng chuyển động 0.3 giây */
+    min-width: 100px;
+    /* Chiều rộng tối thiểu 100px */
+    text-align: center;
+    /* Căn giữa chữ */
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp dọc (text và state) */
+    gap: 3px;
+    /* Khoảng cách giữa text và state 3px */
+}
+
+/* Text nhỏ (state) trong nút gate */
+.gate-btn-vertical small {
+    font-size: 11px;
+    /* Cỡ chữ 11px */
+    font-weight: normal;
+    /* Độ đậm bình thường */
+    opacity: 0.8;
+    /* Độ mờ 80% */
+}
+
+/* Nút gate khi hover */
+.gate-btn-vertical:hover {
+    background: #f0dd9a;
+    /* Nền vàng đậm hơn */
+    transform: translateY(-2px);
+    /* Nâng lên 2px */
+}
+
+/* Nút gate khi active (cổng đang mở) */
+.gate-btn-vertical.active {
+    background: #c62828 !important;
+    /* Nền đỏ (ưu tiên cao) */
+    color: white !important;
+    /* Chữ trắng (ưu tiên cao) */
+    border-color: #c62828 !important;
+    /* Viền đỏ (ưu tiên cao) */
+}
+
+/* ==========================================
+   NHÃN VÀ HÌNH ẢNH CỔNG
+   ========================================== */
+
+/* Nhãn OUT và IN */
+.gate-label-new {
+    position: absolute;
+    /* Định vị tuyệt đối */
+    font-weight: bold;
+    /* Chữ đậm */
+    font-size: 24px;
+    /* Cỡ chữ 24px */
+    z-index: 10;
+    /* Lớp hiển thị cao */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    /* Đổ bóng chữ */
+}
+
+/* Nhãn OUT (bên trái) */
+.gate-label-new.out {
+    left: 40px;
+    /* Cách lề trái 40px */
+    top: 20px;
+    /* Cách lề trên 20px */
+    color: #c62828;
+    /* Màu đỏ */
+}
+
+/* Nhãn IN (bên phải) */
+.gate-label-new.in {
+    right: 40px;
+    /* Cách lề phải 40px */
+    top: 20px;
+    /* Cách lề trên 20px */
+    color: #1565c0;
+    /* Màu xanh */
+}
+
+/* Container hiển thị cổng (barie) */
+.gate-visual-new {
+    position: relative;
+    /* Định vị tương đối */
+    height: 140px;
+    /* Chiều cao 140px */
+    width: 280px;
+    /* Chiều rộng 280px */
+    margin: 0 auto;
+    /* Căn giữa */
+}
+
+/* Trục đen ở giữa cổng */
+.center-pole-new {
+    position: absolute;
+    /* Định vị tuyệt đối */
+    left: 50%;
+    /* Cách lề trái 50% */
+    bottom: 0;
+    /* Dính đáy */
+    transform: translateX(-50%);
+    /* Dịch sang trái 50% để căn giữa */
+    width: 24px;
+    /* Chiều rộng 24px */
+    height: 100px;
+    /* Chiều cao 100px */
+    background: linear-gradient(to bottom, #333, #111);
+    /* Gradient đen từ trên xuống dưới */
+    border-radius: 12px 12px 0 0;
+    /* Bo góc trên trái và phải 12px */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    /* Đổ bóng mạnh */
+    z-index: 10;
+    /* Lớp hiển thị cao */
+}
+
+/* Thanh gạt cổng (barrier) */
+.barrier-new {
+    position: absolute;
+    /* Định vị tuyệt đối */
+    bottom: 5px;
+    /* Cách đáy 5px (sát đáy trục đen) */
+    width: 110px;
+    /* Chiều rộng 110px */
+    height: 14px;
+    /* Chiều cao 14px */
+    border-radius: 7px;
+    /* Bo góc 7px */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    /* Đổ bóng */
+    z-index: 5;
+    /* Lớp hiển thị thấp hơn trục đen */
+    transition: transform 0.7s cubic-bezier(0.22, 0.8, 0.2, 1);
+    /* Hiệu ứng xoay mượt 0.7 giây */
+}
+
+/* Thanh gạt OUT (bên trái - màu đỏ) */
+.barrier-new.out {
+    right: 50%;
+    /* Cách lề phải 50% (nằm bên trái trục) */
+    margin-right: 0px;
+    /* Không có margin */
+    background: linear-gradient(to right, #e91e63, #f06292);
+    /* Gradient đỏ hồng */
+    border: 2px solid #c2185b;
+    /* Viền đỏ đậm 2px */
+    transform-origin: right center;
+    /* Điểm xoay: bên phải giữa */
+}
+
+/* Thanh gạt IN (bên phải - màu xanh) */
+.barrier-new.in {
+    left: 50%;
+    /* Cách lề trái 50% (nằm bên phải trục) */
+    margin-left: 0px;
+    /* Không có margin */
+    background: linear-gradient(to right, #2196f3, #64b5f6);
+    /* Gradient xanh dương */
+    border: 2px solid #1976d2;
+    /* Viền xanh đậm 2px */
+    transform-origin: left center;
+    /* Điểm xoay: bên trái giữa */
+}
+
+/* Thanh gạt OUT khi mở (xoay 70 độ lên) */
+.barrier-new.out.open {
+    transform: rotate(70deg);
+    /* Xoay 70 độ ngược chiều kim đồng hồ */
+}
+
+/* Thanh gạt IN khi mở (xoay -70 độ lên) */
+.barrier-new.in.open {
+    transform: rotate(-70deg);
+    /* Xoay 70 độ cùng chiều kim đồng hồ */
+}
+
+/* Vạch phản quang trên thanh gạt */
+.barrier-new::after {
+    content: '';
+    /* Nội dung rỗng (pseudo-element) */
+    position: absolute;
+    /* Định vị tuyệt đối */
+    top: 3px;
+    /* Cách đỉnh 3px */
+    left: 8px;
+    /* Cách trái 8px */
+    right: 8px;
+    /* Cách phải 8px */
+    height: 4px;
+    /* Chiều cao 4px */
+    background: repeating-linear-gradient(90deg,
+            white 0px,
+            /* Vạch trắng từ 0px */
+            white 8px,
+            /* Đến 8px */
+            transparent 8px,
+            /* Trong suốt từ 8px */
+            transparent 16px);
+    /* Đến 16px (lặp lại) */
+    border-radius: 2px;
+    /* Bo góc 2px */
+    opacity: 0.85;
+    /* Độ mờ 85% */
+}
+
+/* ==========================================
+   RESPONSIVE - Màn hình nhỏ
+   ========================================== */
+
+/* Khi màn hình nhỏ hơn 1200px */
+@media (max-width: 1200px) {
+
+    /* Container chuyển sang 1 cột */
+    .container {
+        grid-template-columns: 1fr;
+        /* Chỉ 1 cột */
+        grid-template-rows: auto auto auto;
+        /* 3 hàng tự động */
+        height: auto;
+        /* Chiều cao tự động */
+    }
+
+    /* Camera section - hàng 1 */
+    .camera-section {
+        grid-column: 1;
+        /* Cột 1 */
+        grid-row: 1;
+        /* Hàng 1 */
+    }
+
+    /* Gate control - hàng 2 */
+    .reserved-top {
+        grid-column: 1;
+        /* Cột 1 */
+        grid-row: 2;
+        /* Hàng 2 */
+    }
+
+    /* CSV logs - hàng 3 */
+    .csv-section {
+        grid-column: 1;
+        /* Cột 1 */
+        grid-row: 3;
+        /* Hàng 3 */
+    }
+}
+
+/* ==========================================
+   PHẦN XE ĐANG ĐỖ TRONG BÃI (REALTIME)
+   ========================================== */
+
+/* Container chứa danh sách xe */
+.vehicles-parking-section {
+    background: #f9f9f9;
+    /* Màu nền xám rất nhạt */
+    padding: 8px;
+    /* Khoảng đệm trong 8px */
+    border-radius: 10px;
+    /* Bo góc 10px */
+    border: 1px solid #e0e0e0;
+    /* Viền xám nhạt 1px */
+    height: 100%;
+    /* Chiều cao 100% của container cha */
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+}
+
+/* Tiêu đề h3 trong vehicles section */
+.vehicles-parking-section h3 {
+    margin-top: 0;
+    /* Không có lề trên */
+    margin-bottom: 8px;
+    /* Lề dưới 8px để cách bảng */
+    color: #2196F3;
+    /* Màu xanh dương */
+    font-size: 16px;
+    /* Cỡ chữ 16px */
+}
+
+/* Bảng hiển thị xe */
+#vehicles-table {
+    width: 100%;
+    /* Chiều rộng 100% */
+    border-collapse: collapse;
+    /* Gộp viền các ô */
+    font-size: 15px;
+    /* Cỡ chữ 15px */
+}
+
+/* Header (th) của bảng xe */
+#vehicles-table th {
+    background: #f5f5f5;
+    /* Nền xám rất nhạt */
+    padding: 5px;
+    /* Khoảng đệm trong 5px */
+    text-align: left;
+    /* Căn trái */
+    font-weight: 800;
+    /* Chữ rất đậm */
+    border-bottom: 2px solid #ddd;
+    /* Viền dưới 2px xám nhạt */
+    font-size: 15px;
+    /* Cỡ chữ 15px */
+}
+
+/* Các ô dữ liệu (td) trong bảng xe */
+#vehicles-table td {
+    padding: 8px;
+    /* Khoảng đệm trong 8px */
+    border-bottom: 1px solid #eee;
+    /* Viền dưới 1px xám rất nhạt */
+}
+
+/* Dòng trong bảng xe khi hover */
+#vehicles-table tbody tr:hover {
+    background: #f0f0f0;
+    /* Nền xám nhạt khi di chuột qua */
+}
+
+/* Cột chứa bảng xe */
+.vehicles-column {
+    display: flex;
+    /* Sử dụng Flexbox */
+    flex-direction: column;
+    /* Xếp theo chiều dọc */
+    height: 100%;
+    /* Chiều cao 100% */
+    margin-right: -12px;
+    /* Dời sang phải 12px để sát lề */
+}
+
+/* Container bảng trong vehicles column */
+.vehicles-column .table-container {
+    flex: 1;
+    /* Chiếm hết không gian còn lại */
+    overflow-y: auto;
+    /* Cho phép cuộn dọc khi bảng dài */
+}
+
+/* ==========================================
+   CÁC STYLE BỔ SUNG (UTILITY CLASSES)
+   ========================================== */
+
+/* Khu vực nhập biển số xe */
+.plate-input-section {
+    margin-bottom: 15px;
+    /* Khoảng cách dưới 15px */
+    display: flex;
+    /* Sử dụng Flexbox */
+    gap: 10px;
+    /* Khoảng cách giữa các phần tử 10px */
+}
+
+/* Input trong plate section */
+.plate-input-section input {
+    padding: 10px;
+    /* Khoảng đệm trong 10px */
+    flex: 1;
+    /* Chiếm phần còn lại */
+    border: 1px solid #ddd;
+    /* Viền xám nhạt 1px */
+    border-radius: 4px;
+    /* Bo góc 4px */
+}
+
+/* Nút "Gửi Biển Số" */
+.btn-send-plate {
+    padding: 10px 20px;
+    /* Padding trên-dưới=10px, trái-phải=20px */
+    background-color: #2196F3 !important;
+    /* Nền xanh dương (ưu tiên cao) */
+    color: white !important;
+    /* Chữ trắng (ưu tiên cao) */
+    border: none !important;
+    /* Không có viền (ưu tiên cao) */
+    border-radius: 4px;
+    /* Bo góc 4px */
+    cursor: pointer;
+    /* Con trỏ dạng tay */
+}
+
+/* Nút "Gửi Biển Số" khi hover */
+.btn-send-plate:hover {
+    background-color: #1976D2 !important;
+    /* Nền xanh đậm hơn khi hover */
+}
+
+/* Nút "Export CSV" */
+.btn-export-csv {
+    padding: 10px 20px;
+    /* Padding trên-dưới=10px, trái-phải=20px */
+    background-color: #4caf50 !important;
+    /* Nền xanh lá (ưu tiên cao) */
+    color: white !important;
+    /* Chữ trắng (ưu tiên cao) */
+    border: none !important;
+    /* Không có viền (ưu tiên cao) */
+    border-radius: 4px;
+    /* Bo góc 4px */
+    cursor: pointer;
+    /* Con trỏ dạng tay */
+}
+
+/* Nút "Export CSV" khi hover */
+.btn-export-csv:hover {
+    background-color: #388E3C !important;
+    /* Nền xanh lá đậm hơn khi hover */
+}
+
+/* Chữ "Đang tải dữ liệu..." trong bảng */
+.table-loading {
+    text-align: center;
+    /* Căn giữa */
+}
+
+/* Chữ "No vehicles" trong bảng */
+.table-empty {
+    text-align: center;
+    /* Căn giữa */
+    color: #999;
+    /* Màu xám nhạt */
+}
+
+/* Tiêu đề "Realtime" */
+.realtime-heading {
+    margin-top: 0;
+    /* Không có lề trên */
+    color: #2196F3;
+    /* Màu xanh dương */
+}
+
+/* Container bảng Realtime có thể cuộn */
+.realtime-table-container {
+    max-height: 350px;
+    /* Chiều cao tối đa 350px */
+    overflow-y: auto;
+    /* Cho phép cuộn dọc khi vượt quá */
+}

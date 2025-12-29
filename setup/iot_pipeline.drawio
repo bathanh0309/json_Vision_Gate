@@ -1,0 +1,157 @@
+<mxfile host="65bd71144e">
+    <diagram name="IOT Pipeline - License Plate Flow" id="iot-pipeline">
+        <mxGraphModel dx="704" dy="356" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="IOT WEB PIPELINE" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="671" y="59" width="259" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="mqtt-broker" value="MQTT Broker&#xa;broker.emqx.io:1883" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="700" y="120" width="200" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="ai-webcam" value="Flask AI Webcam&#xa;(run_webcam_flask.py)&#xa;Port 5000" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="355" y="180" width="160" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-ai-mqtt" value="1. PUBLISH&#xa;Topic: bienso/cmd&#xa;Message: 59A12345" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#d79b00;fontSize=11;fontColor=#d79b00;fontStyle=1" parent="1" source="ai-webcam" target="mqtt-broker" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="backend" value="Backend Server&#xa;(server.js)&#xa;Port 3000&#xa;Node.js + Express" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="720" y="420" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-mqtt-backend" value="2. SUBSCRIBE&#xa;Receive: 59A12345" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=3;strokeColor=#82b366;fontSize=11;fontColor=#82b366;fontStyle=1" parent="1" source="mqtt-broker" target="backend" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="database" value="SQLite Database&#xa;gate_system.db&#xa;&#xa;Tables:&#xa;- vehicles&#xa;- logs" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="438" y="600" width="140" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-backend-db-check" value="3. CHECK DATABASE&#xa;SELECT * FROM vehicles&#xa;WHERE plate = &#39;59A12345&#39;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;entryPerimeter=0;strokeWidth=2;strokeColor=#b85450;fontSize=10;fontColor=#b85450" parent="1" source="backend" target="database" edge="1">
+                    <mxGeometry x="-0.0979" y="46" relative="1" as="geometry">
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="decision" value="Xe đã có&#xa;trong bãi?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=12;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="710" y="600" width="180" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-db-decision" value="Result" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#666666;dashed=1" parent="1" source="database" target="decision" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-backend-decision" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#666666" parent="1" source="backend" target="decision" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="case-entry" value="4a. XE VÀO (ENTRY)&#xa;&#xa;Actions:&#xa;• INSERT vehicles&#xa;• Log: CAR_IN&#xa;• Publish gate/status&#xa;  {&quot;in&quot;: &quot;ON&quot;, &quot;out&quot;: &quot;OFF&quot;}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=top;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="576" y="731" width="144" height="108" as="geometry"/>
+                </mxCell>
+                <mxCell id="case-exit" value="4b. XE RA (EXIT)&#xa;&#xa;Actions:&#xa;• UPDATE vehicles&#xa;• Log: CAR_OUT&#xa;• Publish gate/status&#xa;  {&quot;in&quot;: &quot;OFF&quot;, &quot;out&quot;: &quot;ON&quot;}" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;align=left;verticalAlign=top;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="918" y="666" width="138" height="114" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-decision-entry" value="KHÔNG (status=EXITED)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#9673a6;fontSize=10;fontColor=#9673a6;fontStyle=1" parent="1" source="decision" target="case-entry" edge="1">
+                    <mxGeometry x="0.1765" y="-7" relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="648" y="700"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow-decision-exit" value="CÓ (status=IN_PARKING)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.792;exitY=0.272;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#9673a6;fontSize=10;fontColor=#9673a6;fontStyle=1;exitPerimeter=0;" parent="1" source="decision" target="case-exit" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="851" y="633"/>
+                            <mxPoint x="851" y="580"/>
+                            <mxPoint x="987" y="580"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="mqtt-gate" value="5. PUBLISH GATE STATUS&#xa;Topic: gate/status&#xa;Message: JSON&#xa;{&quot;in&quot;: &quot;ON/OFF&quot;, &quot;out&quot;: &quot;ON/OFF&quot;}&#xa;&#xa;QoS: 0, Retain: true" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=top;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="741" y="836" width="192" height="86" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-entry-mqtt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#6c8ebf" parent="1" source="case-entry" target="mqtt-gate" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-exit-mqtt" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#6c8ebf" parent="1" source="case-exit" target="mqtt-gate" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="auto-close" value="6. AUTO-CLOSE TIMER&#xa;setTimeout(3000ms)&#xa;→ Publish OFF" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;dashed=1" parent="1" vertex="1">
+                    <mxGeometry x="1018" y="849" width="140" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-gate-autoclose" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=1;strokeColor=#d6b656;dashed=1" parent="1" source="mqtt-gate" target="auto-close" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="frontend" value="Frontend&#xa;(index.html)&#xa;Port 3000&#xa;&#xa;Components:&#xa;• Gate visual&#xa;• Logs table&#xa;• Vehicles table" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;verticalAlign=top;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="1121" y="141" width="160" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-mqtt-frontend" value="7a. WEBSOCKET&#xa;Subscribe: gate/status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;strokeWidth=3;strokeColor=#82b366;fontSize=10;fontColor=#82b366;fontStyle=1" parent="1" source="mqtt-broker" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1120" y="179" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="firmware" value="ESP32-C3 Firmware&#xa;(firmware.ino)&#xa;&#xa;Components:&#xa;• GPIO LEDs&#xa;• Relay control&#xa;• MQTT client" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;align=left;verticalAlign=top;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="1130" y="407" width="138" height="106" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-mqtt-firmware" value="7b. SUBSCRIBE&#xa;Topic: gate/status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=3;strokeColor=#d79b00;fontSize=10;fontColor=#d79b00;fontStyle=1;entryX=0.003;entryY=0.226;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="mqtt-broker" target="firmware" edge="1">
+                    <mxGeometry x="-0.1742" y="-19" relative="1" as="geometry">
+                        <mxPoint x="862.2595874543943" y="271.03754672982154" as="sourcePoint"/>
+                        <mxPoint x="1120.9959999999999" y="414.45000000000005" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="958" y="271"/>
+                            <mxPoint x="958" y="406"/>
+                            <mxPoint x="1108" y="406"/>
+                            <mxPoint x="1108" y="431"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="frontend-actions" value="8a. FRONTEND UPDATES&#xa;&#xa;• updateGateUI()&#xa;• Barrier animation&#xa;• Button state change&#xa;• Fetch /api/logs&#xa;• Fetch /api/vehicles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;verticalAlign=top" parent="1" vertex="1">
+                    <mxGeometry x="1130" y="297" width="142" height="96" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-frontend-actions" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1;strokeColor=#666666;dashed=1" parent="1" source="frontend" target="frontend-actions" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="firmware-actions" value="8b. FIRMWARE GPIO&#xa;&#xa;if (in == ON):&#xa;  • LED_IN: HIGH&#xa;  • digitalWrite()&#xa;&#xa;if (out == ON):&#xa;  • LED_OUT: HIGH&#xa;  • digitalWrite()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;verticalAlign=top;fontFamily=Courier New" parent="1" vertex="1">
+                    <mxGeometry x="1130" y="533" width="138" height="115" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-firmware-actions" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeWidth=1;strokeColor=#666666;dashed=1" parent="1" source="firmware" target="firmware-actions" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="http-api" value="9. HTTP REST API&#xa;&#xa;GET /api/logs&#xa;→ Return last 50 logs&#xa;&#xa;GET /api/vehicles&#xa;→ Return IN_PARKING" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;verticalAlign=top" parent="1" vertex="1">
+                    <mxGeometry x="933" y="418.25" width="155" height="103.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="arrow-frontend-http" value="Fetch data" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#b85450;fontSize=10;dashed=1" parent="1" source="frontend" target="http-api" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1121" y="249"/>
+                            <mxPoint x="1049" y="249"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="arrow-http-backend" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeWidth=2;strokeColor=#82b366" parent="1" source="http-api" target="backend" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend-box" value="FLOW" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=14;fontStyle=1;align=center;verticalAlign=top" parent="1" vertex="1">
+                    <mxGeometry x="327" y="287" width="275" height="282" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend-mqtt" value="MQTT Message Flow" style="text;html=1;strokeColor=#6c8ebf;fillColor=#dae8fc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="346" y="313" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend-http" value="HTTP REST API" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="346" y="353" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend-db" value="Database Operation" style="text;html=1;strokeColor=#b85450;fillColor=#f8cecc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="346" y="393" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend-gpio" value="GPIO Hardware Control" style="text;html=1;strokeColor=#d79b00;fillColor=#ffe6cc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="346" y="433" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend-ui" value="Frontend UI Update" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11" parent="1" vertex="1">
+                    <mxGeometry x="346" y="473" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="legend-timer" value="Auto-close Timer (3s)" style="text;html=1;strokeColor=#d6b656;fillColor=#fff2cc;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=11;dashed=1" parent="1" vertex="1">
+                    <mxGeometry x="346" y="513" width="240" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="note-timing" value="⏱ TIMING&#xa;&#xa;1. MQTT publish: ~10ms&#xa;2. Backend process: ~50ms&#xa;3. Database query: ~5ms&#xa;4. Frontend update: ~100ms&#xa;5. Auto-close: 3000ms&#xa;&#xa;Total: ~3165ms per plate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=top;fontStyle=1" parent="1" vertex="1">
+                    <mxGeometry x="1072" y="668" width="200" height="160" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

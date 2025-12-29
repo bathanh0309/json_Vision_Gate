@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32-C3 Gate Control System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="camera_styles.css">
+    <!-- MQTT.js từ CDN - Kết nối trực tiếp tới EMQX -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+</head>
+
+<body>
+    <h1>ESP32-C3 Gate Control Dashboard</h1>
+
+    <div class="container">
+        <!-- Camera Stream -->
+        <div class="camera-section">
+            <h2>📷 AI License Plate Detection</h2>
+            <img id="stream" src="http://localhost:5000/video_feed" alt="AI Webcam Stream">
+            <div class="camera-status">
+                <span id="camera-status-text">🟢 AI Camera: Active</span>
+                <span id="mqtt-status-text">🔴 MQTT: Disconnected</span>
+            </div>
+        </div>
+
+        <!-- Live Vehicle Logs -->
+        <div class="csv-section">
+            <h2>📊 Live Vehicle Logs</h2>
+
+            <!-- Khu vực nhập biển số thủ công -->
+            <div class="plate-input-section">
+                <input type="text" id="manual-plate" placeholder="Nhập biển số xe (VD: 59A-123.45)">
+                <button class="btn-send-plate" onclick="sendManualPlate()">
+                    🚀 Gửi Biển Số
+                </button>
+                <button class="btn-export-csv" onclick="exportLogsToCSV()">
+                    📥 Export CSV
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table id="log-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Event/State</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3" class="table-loading">Đang tải dữ liệu...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Gate Control -->
+        <div class="reserved-top">
+            <h2>🚧 Gate Control</h2>
+
+            <div class="gate-control-grid">
+                <!-- LEFT COLUMN: Gate Visual + Buttons -->
+                <div class="gate-visual-column">
+                    <div class="gate-wrapper-new">
+                        <!-- 70% - Khu vực barie -->
+                        <div class="gate-visual-area">
+                            <div class="gate-label-new out">OUT</div>
+                            <div class="gate-label-new in">IN</div>
+
+                            <div class="gate-visual-new">
+                                <div class="center-pole-new"></div>
+                                <div class="barrier-new out" id="barrier-out"></div>
+                                <div class="barrier-new in" id="barrier-in"></div>
+                            </div>
+                        </div>
+
+                        <!-- 2 nút dọc - IN trước, OUT sau -->
+                        <div class="gate-buttons-area">
+                            <button class="gate-btn-vertical" id="btn-out" onclick="toggleGateOUT()">
+                                <span id="btn-out-text">GATE OUT</span>
+                                <small id="btn-out-state">CLOSE</small>
+                            </button>
+                            <button class="gate-btn-vertical" id="btn-in" onclick="toggleGateIN()">
+                                <span id="btn-in-text">GATE IN</span>
+                                <small id="btn-in-state">CLOSE</small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN: Vehicles in Parking -->
+                <div class="vehicles-column">
+                    <div class="vehicles-parking-section">
+                        <h3 class="realtime-heading">🚗Realtime</h3>
+                        <div class="table-container realtime-table-container">
+                            <table id="vehicles-table">
+                                <thead>
+                                    <tr>
+                                        <th>Plate</th>
+                                        <th>Time</th>
+                                        <th>Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="3" class="table-empty">No vehicles</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
